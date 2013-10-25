@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	{% include "_elements/pathlink.html" %}
+
+	{% if path %}
+		{% set base="files/" + path %}
+	{% else %}
+		{% set base="files" %}
+	{% endif %}
+
+	<table>
+		{% for file, is_dir in files %}
+			{% if is_dir %}
+			<tr class="directory">
+				<td><a href="{{ base }}/{{ file }}/index.html">{{ file }}</a></td>
+			</tr>
+			{% else %}
+			<tr class="file">
+				<td><a href="{{ base }}/{{ file }}.html">{{ file }}</a></td>
+			</tr>
+			{% endif %}
+		{% endfor %}
+	</table>
+
+{% endblock %}
