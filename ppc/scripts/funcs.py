@@ -4,9 +4,12 @@ import glob
 import argparse
 
 from lxml import etree
-from bs4 import BeautifulSoup
 from progressbar import Bar, Percentage, ProgressBar, SimpleProgress
 import CppHeaderParser
+
+
+# Link to the Posix reference, 2013 edition
+# http://pubs.opengroup.org/onlinepubs/9699919799/download/susv4tc1.tar.bz2'
 
 
 def build_parser():
@@ -20,7 +23,7 @@ def build_parser():
 
 
 def get_synopsis(soup):
-    synopsis = soup.xpath('//blockquote[@class="synopsis"]//code')
+    synopsis = soup.xpath('//blockquote[@class="synopsis"]')
     if not synopsis:
         return []
     return synopsis

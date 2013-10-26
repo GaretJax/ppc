@@ -1,8 +1,8 @@
 <h1>
-    <a href="files/index.html">root</a>/
+    <a href="{{ _base }}/files/index.html">root</a>/
 		{%- for chunk, link in path|pathlinks() -%}
 			{%- if link -%}
-				<a href="files/{{ link }}">{{ chunk }}</a>/
+				<a href="{{ _base }}/files/{{ link }}">{{ chunk }}</a>/
 			{%- else -%}
 				{{ chunk }}
 			{%- endif -%}

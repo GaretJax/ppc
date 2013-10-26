@@ -1,0 +1,4 @@
+{% for func in funcs %}
+{{ func }}	funcs/{{ func }}.html	1;"	a
+{%- endfor %}
+

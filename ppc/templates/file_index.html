@@ -5,9 +5,9 @@
 	{% include "_elements/pathlink.html" %}
 
 	{% if path %}
-		{% set base="files/" + path %}
+		{% set base=_base + "/files/" + path %}
 	{% else %}
-		{% set base="files" %}
+		{% set base=_base + "/files" %}
 	{% endif %}
 
 	<table>

@@ -4,6 +4,7 @@ from pygments.styles import get_style_by_name
 from pygments.formatters import HtmlFormatter
 
 from .rendering import render_to_file
+from .progress import get_label_progress
 
 
 def generate_stylesheet(outdir, stylename='colorful'):
@@ -14,13 +15,27 @@ def generate_stylesheet(outdir, stylename='colorful'):
         fh.write(formatter.get_style_defs())
 
 
-def generate_file_index(env, outdir, srcdir, files):
+def generate_funcs_index(env, outdir, cross_reference):
+    context = {
+        'funcs': cross_reference[0],
+    }
+    render_to_file(env, 'funcs_index.html', outdir, 'funcs/index.html', context)
+
+
+def generate_tagsfile(env, outdir, funcs):
+    render_to_file(env, 'tags.txt', outdir, 'tags',
+                   {'funcs': sorted(funcs.keys())})
+
+
+def generate_file_index(env, outdir, srcdir, files, cross_reference):
     generate_stylesheet(outdir)
     srcdir = os.path.realpath(srcdir)
 
     tree = {}
 
-    for path in files[:20]:
+    generation_progress = get_label_progress('Generating source files:')
+
+    for path in generation_progress(files):
         with open(os.path.join(srcdir, path)) as fh:
             content = fh.read()
 
@@ -31,14 +46,18 @@ def generate_file_index(env, outdir, srcdir, files):
             del _path[-1]
             tree.setdefault('/'.join(_path), set()).add((f, 1))
 
+        context = {
+            'path': path,
+            'code': content,
+            'report_path': outdir,
+            'funcs': cross_reference[1][path],
+        }
+
         try:
-            render_to_file(
-                env, 'file.html', outdir,
-                os.path.join('files', path + '.html'),
-                {'path': path, 'code': content}
-            )
+            render_to_file(env, 'file.html', outdir,
+                           os.path.join('files', path + '.html'), context)
         except Exception as e:
-            print file, e
+            print path, e
             pass
 
     for k, v in tree.iteritems():

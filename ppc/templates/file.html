@@ -4,7 +4,15 @@
 
 	{% include "_elements/pathlink.html" %}
 
-	{{ code|highlight }}
+	<h2>Used functions</h2>
+	<ul>
+		{% for func, lines in funcs|dictsort %}
+			<li><a href="{{ _base }}/funcs/{{ func }}.html">{{ func }}</a> - {% for l in lines -%}<a href="#l-{{ l }}">{{ l }}</a> {% endfor %}</li>
+		{% endfor %}
+	</ul>
+
+	<h2>Source code</h2>
+
+	{{ code|highlight(tagsfile=report_path + '/tags') }}
 
 {% endblock %}
-

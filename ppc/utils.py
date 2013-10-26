@@ -1,4 +1,7 @@
 import os
+from collections import Counter
+
+from .progress import get_label_progress
 
 
 def sibling_file(path, filename):
@@ -33,14 +36,28 @@ def grep_files(srcdir, files, func_pattern):
     func_occurrences = {}
     file_occurrences = {}
 
-    for path in files:
-        path = os.path.join(srcdir, path)
-        with open(path) as fh:
+    search_progress = get_label_progress('Cross referencing functions:')
+
+    for func in func_pattern:
+        func_occurrences[func] = {}
+
+    for path in search_progress(files):
+        abspath = os.path.join(srcdir, path)
+        with open(abspath) as fh:
             content = fh.read()
 
+        file_occurrences[path] = []
+
+        func_lines = {}
+
         for func, regex in func_pattern.iteritems():
-            if regex.search(content) is not None:
-                func_occurrences.setdefault(func, []).append(path)
-                file_occurrences.setdefault(path, []).append(func)
+            for match in regex.finditer(content):
+                line = content.count('\n', 0, match.start()) + 1
+                func_lines.setdefault(func, []).append(line)
+
+        for func, lines in func_lines.iteritems():
+            func_occurrences[func][path] = lines
+
+        file_occurrences[path] = func_lines
 
     return func_occurrences, file_occurrences

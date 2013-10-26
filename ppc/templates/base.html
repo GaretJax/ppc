@@ -2,16 +2,17 @@
 <html>
 	<head>
 		<title>POPC</title>
-		<base href="{{ _base }}"/>
-		<link href="pygments.css" rel="stylesheet" type="text/css"/>
+		<!--base href="{{ _base }}"/-->
+		<link href="{{ _base }}/pygments.css" rel="stylesheet" type="text/css"/>
 	</head>
 	<body>
 		{% block body %}
 
-			<ul>
-				<li><a href="files/index.html">Files</a></li>
-				<li><a href="funcs/index.html">Functions</a></li>
-			</ul>
+		<ul>
+			<li><a href="{{ _base }}/files/index.html">Files</a></li>
+			<li><a href="{{ _base }}/funcs/index.html">Functions</a></li>
+			<li><a href="{{ _base }}/posix_doc/nfindex.html">Posix documentation</a></li>
+		</ul>
 
 		{% block content %}
 
