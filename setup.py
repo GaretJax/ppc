@@ -2,6 +2,7 @@
 
 import os
 import sys
+import re
 
 from setuptools import setup, find_packages
 
@@ -10,9 +11,12 @@ class Setup(object):
     @staticmethod
     def get_version(package):
         file = os.path.join(package, '__init__.py')
-        namespace = {}
-        execfile(file, namespace)
-        return namespace['__version__']
+        for line in Setup.read(file).split('\n'):
+            match = re.match('__version__ = \'([^\']+)\'', line)
+            if match is not None:
+                return match.group(1)
+
+        raise SyntaxError('Version definition not found in {}'.format(file))
 
     @staticmethod
     def read(fname, fail_silently=False):
