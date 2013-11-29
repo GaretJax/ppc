@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import os
-import importlib
+import sys
 
 from setuptools import setup, find_packages
 
@@ -9,8 +9,10 @@ from setuptools import setup, find_packages
 class Setup(object):
     @staticmethod
     def get_version(package):
-        module = importlib.import_module(package)
-        return module.__version__
+        file = os.path.join(package, '__init__.py')
+        namespace = {}
+        execfile(file, namespace)
+        return namespace['__version__']
 
     @staticmethod
     def read(fname, fail_silently=False):
@@ -25,15 +27,29 @@ class Setup(object):
             return ''
 
     @staticmethod
-    def requirements(fname):
+    def _requirements(fname):
         """
         Utility function to create a list of requirements from the output of
         the pip freeze command saved in a text file.
         """
-        packages = Setup.read(fname, fail_silently=True).split('\n')
-        packages = (p.strip() for p in packages)
-        packages = (p for p in packages if p and not p.startswith('#'))
-        return list(packages)
+        packages = Setup.read(fname, fail_silently=True)
+        if packages:
+            packages = packages.split('\n')
+            packages = (p.strip() for p in packages)
+            packages = (p for p in packages if p and not p.startswith('#'))
+            return list(packages)
+        return []
+
+    @staticmethod
+    def requirements(fname):
+        packages = Setup._requirements(fname)
+
+        pyver = sys.version_info
+        base, ext = fname.rsplit('.', 1)
+        fname = '{}-py{}{}.{}'.format(base, pyver.major, pyver.minor, ext)
+        packages += Setup._requirements(fname)
+
+        return packages
 
     @staticmethod
     def get_files(*bases):
