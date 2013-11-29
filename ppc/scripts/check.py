@@ -3,6 +3,7 @@ import re
 import os
 import argparse
 import shutil
+import json
 
 from ppc.rendering import build_environment
 from ppc.report import generate_file_index, generate_tagsfile, generate_funcs_index
@@ -13,6 +14,8 @@ def build_parser():
     parser = argparse.ArgumentParser(description='POP-C++ Posix Checker.')
     parser.add_argument('source', help='Location of the POP-C++ sources to '
                         'analyze.')
+    parser.add_argument('-c', '--cache',
+                        help='Use the cache file at the given location.')
     parser.add_argument('-d', '--posix-doc',
                         help='Location of the Posix documentation.')
     parser.add_argument('funcs_db', help='Path to the functions database.')
@@ -40,16 +43,22 @@ def main():
     funcs = read_functions_db(args.funcs_db)
     files = read_files_db(args.files_db)
 
-    #import pprint
-    #pprint.pprint(cross_reference)
-
     if not os.path.exists(args.report):
         os.makedirs(args.report)
 
     if args.posix_doc:
-        shutil.copytree(args.posix_doc, os.path.join(args.report, 'posix_doc'))
+        posixdir = os.path.join(args.report, 'posix_doc')
+        if os.path.exists(posixdir):
+            shutil.rmtree(posixdir)
+        shutil.copytree(args.posix_doc, posixdir)
 
-    cross_reference = grep_files(args.source, files, funcs)
+    if args.cache and os.path.exists(args.cache):
+        with open(args.cache) as fh:
+            cross_reference = json.load(fh)
+    else:
+        cross_reference = grep_files(args.source, files, funcs)
+        with open(args.cache, 'w') as fh:
+            json.dump(cross_reference, fh)
 
     env = build_environment()
     generate_funcs_index(env, args.report, cross_reference)

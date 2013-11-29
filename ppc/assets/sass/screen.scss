@@ -1,0 +1,226 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+@import "compass";
+
+@import "variables";
+@import "bootstrap";
+
+nav {
+	
+}
+
+#files nav .files > a,
+#funcs nav .funcs > a,
+#posix nav .posix > a
+{
+	&,
+	&:hover,
+	&:focus {
+		color: $nav-pills-active-link-hover-color;
+		background-color: $nav-pills-active-link-hover-bg;
+
+		.caret {
+			border-top-color: $nav-pills-active-link-hover-color;
+			border-bottom-color: $nav-pills-active-link-hover-color;
+		}
+	}
+}
+
+html {
+	font-family: Lucida Grande;
+}
+
+body {
+	padding: 20px;
+	width: 911px;
+	margin: 0 auto;
+}
+
+h1 {
+	font-size: 30px;
+	font-weight: bold;
+	font-family: Helvetica;
+	margin: 20px 0 10px 0;
+}
+
+h2 {
+	font-size: 20px;
+	font-weight: bold;
+	font-family: Helvetica;
+	margin: 20px 0 10px 0;
+}
+
+.pathlinks {
+	li:first-child a {
+		font-size: 0.7em;
+		vertical-align: 10%;
+		margin-right: 0.2em;
+	}
+
+	a:hover {
+		text-decoration: none;
+	}
+
+	li {
+		display: inline;
+		margin: 0;
+		padding: 0;
+	}
+
+	li + li:before {
+		content: "/";
+		color: #bbb;
+		margin: 0 0.04em 0 0.06em;
+		font-weight: normal;
+	}
+}
+
+.file-used-funcs {
+	-webkit-column-count: 4;
+	margin: 0;
+	padding: 0 1em;
+
+	li {
+		padding: 0 0 0.3em 1em;
+		display: inline-block;
+		width: 100%;
+	}
+
+	li:before {
+		content: "●";
+		font-size: 0.8em;
+		width: 1em;
+		margin: 0 0 0 -1em;
+		display: inline-block;
+	}
+}
+
+.highlighttable {
+	font-family: Menlo;
+	font-size: 13px;
+	line-height: 1.5em;
+	border-collapse: separate;
+	position: relative;
+	@include border-radius($border-radius-base);
+
+	pre {
+		border: 0;
+		padding: 0;
+		margin: 0;
+		background: 0;
+		white-space: pre;
+	}
+
+	.linenos {
+		background: #eee;
+		border-right: 1px solid #bbb;
+		width: 50px;
+		text-align: right;
+		padding: 15px 10px;
+		@include border-left-radius($border-radius-base);
+		
+		a {
+			color: #777;
+			text-decoration: none;
+			position: relative;
+			z-index: 100;
+		}
+	}
+	
+	.code {
+		background: whitesmoke;
+		padding: 15px 10px;
+		border-left: 1px solid #fff;
+		@include border-right-radius($border-radius-base);
+	}
+
+	.code .highlight {
+		width: 800px;
+		overflow: hidden;
+	}
+
+	.code pre {
+		word-wrap: normal;
+		overflow: scroll;
+
+		* {
+			position: relative;
+			z-index: 100;
+		}
+	}
+
+	.code a:target {
+		position: absolute;
+		left: 0px;
+		right: 0px;
+		height: 1.7em;
+		background: rgba(yellow, 0.5);
+		border-top: 1px solid #ffea00;
+		border-bottom: 1px solid #ffea00;
+		z-index: 90;
+		margin-top: -0.15em;
+	}
+
+	/*.code pre a[href] {
+		background: rgba(yellow, 0.8);
+		padding: 2px 7px;
+		margin: -2px -7px;
+		display: inline-block;
+		@include border-radius($border-radius-base);
+	}*/
+}
+
+.funcs-index {
+	border-bottom: 1px solid #ccc;
+
+	td {
+		border-top: 1px solid #ccc;
+		vertical-align: top;
+		padding: 10px 0;
+	}
+
+	ul {
+		margin-bottom: 0;
+		padding-bottom: 0;
+	}
+}
+
+.directory-listing {
+	width: 100%;
+	border-bottom: 1px solid #ccc;
+
+	td {
+		border-top: 1px solid #ccc;
+	}
+
+	.glyphicon {
+		margin: 0 5px;
+	}
+
+	a {
+		display: block;
+		padding: 5px 0;
+		text-decoration: none;
+	}
+
+	.file {
+	
+	}
+
+	.directory {
+		
+	}
+}
+
+footer {
+	text-align: center;
+	color: #999;
+	display: block;
+	margin: 1em 0 0 0;
+
+	p:last-child {
+		margin-bottom: 0;
+	}
+}

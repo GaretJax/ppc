@@ -1,15 +1,23 @@
 {% extends "base.html" %}
 
+{% set id="files" %}
+
 {% block content %}
 
 	{% include "_elements/pathlink.html" %}
 
 	<h2>Used functions</h2>
-	<ul>
+	{% if funcs %}
+	<ul class="file-used-funcs">
 		{% for func, lines in funcs|dictsort %}
 			<li><a href="{{ _base }}/funcs/{{ func }}.html">{{ func }}</a> - {% for l in lines -%}<a href="#l-{{ l }}">{{ l }}</a> {% endfor %}</li>
 		{% endfor %}
 	</ul>
+	{% else %}
+	<div class="alert alert-success">
+		<p><strong>Great!</strong> No POSIX functions found in this file.</p>
+	</div>
+	{% endif %}
 
 	<h2>Source code</h2>
 

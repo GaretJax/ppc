@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from pygments.styles import get_style_by_name
 from pygments.formatters import HtmlFormatter
@@ -7,8 +8,8 @@ from .rendering import render_to_file
 from .progress import get_label_progress
 
 
-def generate_stylesheet(outdir, stylename='colorful'):
-    stylesheet = os.path.join(outdir, 'pygments.css')
+def generate_stylesheet(staticdir, stylename='colorful'):
+    stylesheet = os.path.join(staticdir, 'styles', 'pygments.css')
     with open(stylesheet, 'w') as fh:
         style = get_style_by_name(stylename)
         formatter = HtmlFormatter(style=style)
@@ -28,7 +29,14 @@ def generate_tagsfile(env, outdir, funcs):
 
 
 def generate_file_index(env, outdir, srcdir, files, cross_reference):
-    generate_stylesheet(outdir)
+    #staticdir = os.path.join(outdir, 'static')
+    localstatic = os.path.join(os.path.dirname(__file__), 'static')
+
+    #if os.path.exists(staticdir):
+    #    shutil.rmtree(staticdir)
+    #shutil.copytree(localstatic, staticdir)
+
+    generate_stylesheet(localstatic)
     srcdir = os.path.realpath(srcdir)
 
     tree = {}

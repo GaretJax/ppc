@@ -32,6 +32,16 @@ def authors():
 
 
 @task
+def compass():
+    local('compass watch -c ppc/assets/sass/config.rb')
+
+
+@task
+def livereload():
+    local('bundle exec guard')
+
+
+@task
 def release():
     """
     Create a new release and upload it to PyPI.

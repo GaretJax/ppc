@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
+{% set id="funcs" %}
+
 {% block content %}
 
-  <h2>Functions index</h2>
+  <h1>Functions index</h1>
 
   {% if path %}
 		{% set base=_base + "/files/" + path %}
@@ -10,7 +12,7 @@
 		{% set base=_base + "/files" %}
 	{% endif %}
 
-	<table>
+	<table class="funcs-index">
 		{% for func, files in funcs|dictsort %}
 		{% if files %}
 		<tr>
@@ -19,11 +21,11 @@
 				<ul>
 					{% for path, lines in files|dictsort %}
 					{% set link=_base + '/files/' + path + '.html' %}
-						<li><a href="{{ link }}">{{ path }}</a> ({% for l in lines -%}<a href="{{ link }}#l-{{ l }}">{{ l }}</a>, {% endfor %})</li>
+						<li><a href="{{ link }}">{{ path }}</a> ({% for l in lines -%}<a href="{{ link }}#l-{{ l }}">{{ l }}</a>{% if not loop.last %}, {% endif %}{% endfor %})</li>
 					{% endfor %}
 				</ul>
 			</td>
-			<td><a href="{{ _base }}/posix_doc/functions/{{ func }}.html">Documentation</a></td>
+			<td><a href="{{ _base }}/posix_doc/functions/{{ func }}.html">documentation</a></td>
 		</tr>
 		{% endif %}
 		{% endfor %}
