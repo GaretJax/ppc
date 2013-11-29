@@ -50,7 +50,7 @@ class Setup(object):
 
         pyver = sys.version_info
         base, ext = fname.rsplit('.', 1)
-        fname = '{}-py{}{}.{}'.format(base, pyver.major, pyver.minor, ext)
+        fname = '{}-py{}{}.{}'.format(base, pyver[0], pyver[1], ext)
         packages += Setup._requirements(fname)
 
         return packages
